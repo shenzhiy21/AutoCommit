@@ -1,0 +1,19 @@
+name: auto commit
+
+on:
+  schedule:
+  - cron: "* * * * *"
+  workflow_dispatch:
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Commit
+        run: |
+          git config --global user.name "${GITHUB_REPOSITORY_OWNER}"
+          git config --global user.email "${GITHUB_REPOSITORY_OWNER}@users.noreply.github.com"
+          git commit --allow-empty -m "auto commit: `date "+%Y-%m-%d %H:%M:%S"`"
+          git push
